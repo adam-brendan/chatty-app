@@ -8,48 +8,8 @@ class App extends Component {
     super();
     this.state = {
       currentUser: {name: "Bob"},
-      messages: [
-      {
-        id: 1,
-        type: "incomingMessage",
-        content: "I won't be impressed with technology until I can download food.",
-        username: "Anonymous1"
-      },
-      {
-        id: 2,
-        type: "incomingNotification",
-        content: "Anonymous1 changed their name to nomnom",
-      },
-      {
-        id: 3,
-        type: "incomingMessage",
-        content: "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
-        username: "Anonymous2"
-      },
-      {
-        id: 4,
-        type: "incomingMessage",
-        content: "...",
-        username: "nomnom"
-      },
-      {
-        id: 5,
-        type: "incomingMessage",
-        content: "I'd love to download a fried egg, but I'm afraid encryption would scramble it",
-        username: "Anonymous2"
-      },
-      {
-        id: 6,
-        type: "incomingMessage",
-        content: "This isn't funny. You're not funny",
-        username: "nomnom"
-      },
-      {
-        id: 7,
-        type: "incomingNotification",
-        content: "Anonymous2 changed their name to NotFunny",
-      }
-    ]}
+      messages: []
+    }
     this.newMessage = this.newMessage.bind(this);
   }
   socket = new WebSocket(URL);
@@ -58,6 +18,14 @@ class App extends Component {
       // on connecting, do nothing but log it to the console
       console.log("Connected to server");
     };
+    this.socket.onmessage = (event) => {
+      const msg = JSON.parse(event.data)
+      const oldMessages = this.state.messages;
+      const newMessages = [...oldMessages, msg];
+      this.setState({ messages: newMessages });
+      console.log(this.state.messages);
+    }
+
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
@@ -71,15 +39,11 @@ class App extends Component {
   }
 
   newMessage(content) {
-    const newId = this.state.messages.length + 1;
     const newType = "incomingMessage"
     const newUsername = this.state.currentUser.name;
-    const oldMessages = this.state.messages;
-    const newMessages = [...oldMessages,
-    {id: newId, type: newType, content, username: newUsername}
-    ];
-    this.setState({ messages: newMessages });
-    this.socket.send(`User ${newUsername} said "${content}"`); 
+    const newMessage = {type: newType, content, username: newUsername}
+    this.socket.send(JSON.stringify(newMessage)); 
+    
   }
 
   render() {
@@ -103,3 +67,48 @@ class App extends Component {
   }
 }
 export default App;
+
+
+// dummy data for state
+// messages: [
+//   {
+//     id: 1,
+//     type: "incomingMessage",
+//     content: "I won't be impressed with technology until I can download food.",
+//     username: "Anonymous1"
+//   },
+//   {
+//     id: 2,
+//     type: "incomingNotification",
+//     content: "Anonymous1 changed their name to nomnom",
+//   },
+//   {
+//     id: 3,
+//     type: "incomingMessage",
+//     content: "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
+//     username: "Anonymous2"
+//   },
+//   {
+//     id: 4,
+//     type: "incomingMessage",
+//     content: "...",
+//     username: "nomnom"
+//   },
+//   {
+//     id: 5,
+//     type: "incomingMessage",
+//     content: "I'd love to download a fried egg, but I'm afraid encryption would scramble it",
+//     username: "Anonymous2"
+//   },
+//   {
+//     id: 6,
+//     type: "incomingMessage",
+//     content: "This isn't funny. You're not funny",
+//     username: "nomnom"
+//   },
+//   {
+//     id: 7,
+//     type: "incomingNotification",
+//     content: "Anonymous2 changed their name to NotFunny",
+//   }
+// ]
