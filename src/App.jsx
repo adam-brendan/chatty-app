@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
-import Message from './Message.jsx';
 
 class App extends Component {
   constructor(props) {
     super();
-    this.state = {messages: [
+    this.state = {
+      currentUser: {name: "Bob"},
+      messages: [
       {
         id: 1,
         type: "incomingMessage",
@@ -48,21 +49,51 @@ class App extends Component {
         content: "Anonymous2 changed their name to NotFunny",
       }
     ]}
+    this.newMessage = this.newMessage.bind(this);
   }
+
+  componentDidMount() {
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      // Add a new message to the list of messages in the data store
+      const newMessage = {id: 8, username: "Michelle", content: "Hello there!", type: "incomingMessage"};
+      const messages = this.state.messages.concat(newMessage)
+      // Update the state of the app component.
+      // Calling setState will trigger a call to render() in App and all child components.
+      this.setState({messages: messages})
+    }, 3000);
+  }
+
+  newMessage(content) {
+    const newId = this.state.messages.length + 1;
+    const newType = "incomingMessage"
+    const newUsername = this.state.currentUser.name;
+    const oldMessages = this.state.messages;
+    const newMessages = [...oldMessages,
+    {id: newId, type: newType, content, username: newUsername}
+    ];
+    this.setState({ messages: newMessages });
+  }
+
   render() {
-    const messages= this.state.messages.map(message => (
-      <Message key={message.id} messageUsername={message.username} messageContent={message.content} messageType={message.type} />
-    ));
-    return (
-      <div>
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">Chatty</a>
-        </nav>
-        <MessageList messages={messages} />
-        <ChatBar />
-    
-      </div>
-    );
+    if (this.state.loading) {
+      return <h1>Loading...</h1>
+    } else {
+      // const messages= this.state.messages.map(message => (
+      //   <Message key={message.id} messageUsername={message.username} messageContent={message.content} messageType={message.type} />
+      // ));
+      return (
+        <div>
+          <nav className="navbar">
+            <a href="/" className="navbar-brand">Chatty</a>
+          </nav>
+          <MessageList messages={this.state.messages} />
+          <ChatBar currentUser={this.state.currentUser.name} newMessage={this.newMessage}/>
+      
+        </div>
+      );
+    }
   }
 }
 export default App;
