@@ -54,10 +54,10 @@ class App extends Component {
   }
   socket = new WebSocket(URL);
   componentDidMount() {
-    this.socket.onopen() {
+    this.socket.onopen = function() {
       // on connecting, do nothing but log it to the console
-      console.log('connected')
-    }
+      console.log("Connected to server");
+    };
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
@@ -79,6 +79,7 @@ class App extends Component {
     {id: newId, type: newType, content, username: newUsername}
     ];
     this.setState({ messages: newMessages });
+    this.socket.send(`User ${newUsername} said "${content}"`); 
   }
 
   render() {
