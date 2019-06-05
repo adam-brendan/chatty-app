@@ -7,15 +7,15 @@ class App extends Component {
   constructor(props) {
     super();
     this.state = {
-      currentUser: {name: "Bob"},
+      currentUser: "Bob",
       messages: []
     }
     this.newMessage = this.newMessage.bind(this);
+    this.changeCurrentUser = this.changeCurrentUser.bind(this);
   }
   socket = new WebSocket(URL);
   componentDidMount() {
     this.socket.onopen = function() {
-      // on connecting, do nothing but log it to the console
       console.log("Connected to server");
     };
     this.socket.onmessage = (event) => {
@@ -29,21 +29,21 @@ class App extends Component {
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
       const newMessage = {id: 8, username: "Michelle", content: "Hello there!", type: "incomingMessage"};
       const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
       this.setState({messages: messages})
     }, 3000);
   }
 
   newMessage(content) {
-    const newType = "incomingMessage"
-    const newUsername = this.state.currentUser.name;
-    const newMessage = {type: newType, content, username: newUsername}
+    const newUsername = this.state.currentUser;
+    const newMessage = {type: "incomingMessage", content, username: newUsername}
     this.socket.send(JSON.stringify(newMessage)); 
     
+  }
+
+  changeCurrentUser(user) {
+    this.setState({currentUser: user});
   }
 
   render() {
@@ -59,7 +59,7 @@ class App extends Component {
             <a href="/" className="navbar-brand">Chatty</a>
           </nav>
           <MessageList messages={this.state.messages} />
-          <ChatBar currentUser={this.state.currentUser.name} newMessage={this.newMessage}/>
+          <ChatBar currentUser={this.state.currentUser} newMessage={this.newMessage} changeCurrentUser={this.changeCurrentUser}/>
       
         </div>
       );
