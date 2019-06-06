@@ -27,8 +27,13 @@ class App extends Component {
         const newMessages = [...oldMessages, msg];
         this.setState({ messages: newMessages });
         console.log(this.state.messages);
-      } else {
+      } 
+      
+      if (msg.users) {
         this.setState({users: msg.users});
+      } 
+      
+      if (msg.color) {
         this.setState({userColor: msg.color})
       }
     }
@@ -36,7 +41,7 @@ class App extends Component {
   }
 
   newMessage(content) {
-    const newMessage = {type: "postMessage", content, username: this.state.currentUser}
+    const newMessage = {type: "postMessage", content, username: this.state.currentUser, userColor: this.state.userColor}
     this.socket.send(JSON.stringify(newMessage)); 
     
   }
