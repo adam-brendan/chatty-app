@@ -1,45 +1,46 @@
-React Boilerplate
-=====================
+# ChattyApp
 
-A minimal and light dev environment for ReactJS.
+ChattyApp is a full stack web application that uses Node, Express, ReactJS, JavaScript, HTML5, and CSS3. It enables users to chat with each other in real-time over websockets. Users can change their username and even send image URLs over the application.
 
-### Usage
+## Getting Started
+1. Fork this repository, then clone your fork of this repository.
+2. Install dependencies using the ```npm install``` command.
+3. To start the web server, open a Terminal window, navigate to /chatty-app and use the ```npm run``` command. The app will be served at http://localhost:3000/.
+4. To start the web socket, open a new Terminal window, navigate to /chatty-app/chatty_server and use the ```npm run``` command. Any other users who run chatty-app and connect http://localhost:3000/ will be able to communicate with you.
+5. If you wish, you can start typing messages right away. When another user connects, the user count will update. Any messages you send at this point will be seen by you and all other connected users.
+6. The default username is "Anonymous", but you can change this at any time by typing out a new username and pressing Enter.
+7. Be nice to each other!
 
-Clone the boilerplate and create your own git repo.
+## Screenshots
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+!["main page"]
+!["user count change"]
+!["image message"]
+!["main page again"]
 
-Install the dependencies and start the server.
+## Dependencies
+- @babel/plugin-proposal-class-properties
+- babel
+- jshint
+- react
+- react-dom
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+## Dev Dependencies
 
-### Static Files
-
-You can store static files like images, fonts, etc in the `build` folder.
-
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
-
-### Dependencies
-
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+- @babel/core
+- @babel/preset-env
+- @babel/preset-react
+- babel-core
+- babel-loader
+- babel-preset-es2015
+- babel-preset-react
+- babel-preset-stage-0
+- css-loader
+- eslint
+- eslint-plugin-react
+- node-sass
+- sass-loader
+- sockjs-client
+- style-loader
+- webpack
+- webpack-dev-server

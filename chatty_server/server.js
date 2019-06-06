@@ -57,7 +57,6 @@ wss.on('connection', (ws) => {
     const dataObj = JSON.parse(data);
     dataObj.id = uuidv4();
     if (dataObj.type === "postMessage") {
-        console.log(`User ${dataObj.username} said "${dataObj.content}"`);
         dataObj.type = "incomingMessage"
         wss.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
