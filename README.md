@@ -13,10 +13,10 @@ ChattyApp is a full stack web application that uses Node, Express, ReactJS, Java
 
 ## Screenshots
 
-!["main page"]
-!["user count change"]
-!["image message"]
-!["main page again"]
+!["main page"](docs/chatty-app.png)
+!["user count change"](docs/chatty-app-user-count.png)
+!["image message"](docs/chatty-app-image.png)
+!["main page again"](https://github.com/adam-brendan/chatty-app/blob/master/docs/chatty-app-2.png)
 
 ## Dependencies
 - @babel/plugin-proposal-class-properties
