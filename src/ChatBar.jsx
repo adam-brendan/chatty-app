@@ -5,7 +5,7 @@ export default function ChatBar(props) {
         if (event.keyCode == 13 && event.shiftKey == false) {
             event.preventDefault();
             props.newMessage(event.target.value);
-            event.target.value = "";
+            event.target.value = '';
         }
     };
     const onEnterUser = (event) => {

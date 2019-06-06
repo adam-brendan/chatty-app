@@ -4,13 +4,13 @@ import ChatBar from './ChatBar.jsx';
 const URL = 'ws://localhost:3001';
 
 class App extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
-      currentUser: "Anonymous",
+      currentUser: 'Anonymous',
       messages: [],
       users: 0,
-      userColor: "#000000",
+      userColor: '#000000',
       socket: new WebSocket(URL)
     }
     this.newMessage = this.newMessage.bind(this);
@@ -42,13 +42,13 @@ class App extends Component {
 
   // Sends message to server
   newMessage(content) {
-    const newMessage = {type: "postMessage", content, username: this.state.currentUser, userColor: this.state.userColor}
+    const newMessage = {type: 'postMessage', content, username: this.state.currentUser, userColor: this.state.userColor}
     this.state.socket.send(JSON.stringify(newMessage)); 
     
   }
   // Sends username change notification to server and changes state
   changeCurrentUser(user) {
-    const userChange = {type: "postNotification", content: `${this.state.currentUser} has changed their name to ${user}.`}
+    const userChange = {type: 'postNotification', content: `${this.state.currentUser} has changed their name to ${user}.`}
     this.state.socket.send(JSON.stringify(userChange));
     this.setState({currentUser: user});
   }
@@ -58,7 +58,7 @@ class App extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
-          <div className="navbar-brand" id="num-users">{this.state.users} {this.state.users === 1 ? "user" : "users"} online</div>
+          <div className="navbar-brand" id="num-users">{this.state.users} {this.state.users === 1 ? 'user' : 'users'} online</div>
         </nav>
         <MessageList messages={this.state.messages} color={this.state.userColor} />
         <ChatBar currentUser={this.state.currentUser} newMessage={this.newMessage} changeCurrentUser={this.changeCurrentUser}/>
