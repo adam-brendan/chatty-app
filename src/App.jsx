@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
-const URL = 'ws://localhost:3001'
+const URL = 'ws://localhost:3001';
 
 class App extends Component {
   constructor(props) {
@@ -10,45 +10,46 @@ class App extends Component {
       currentUser: "Anonymous",
       messages: [],
       users: 0,
-      userColor: "#000000"
+      userColor: "#000000",
+      socket: new WebSocket(URL)
     }
     this.newMessage = this.newMessage.bind(this);
     this.changeCurrentUser = this.changeCurrentUser.bind(this);
   }
-  socket = new WebSocket(URL);
+
   componentDidMount() {
-    this.socket.onopen = function() {
-      console.log("Connected to server");
+    this.state.socket.onopen = function() {
     };
-    this.socket.onmessage = (event) => {
+    // Handles all messages from server
+    this.state.socket.onmessage = (event) => {
       const msg = JSON.parse(event.data)
+      // If incomingMessage or incomingNotification
       if (msg.type){
         const oldMessages = this.state.messages;
         const newMessages = [...oldMessages, msg];
         this.setState({ messages: newMessages });
-        console.log(this.state.messages);
       } 
-      
+      // If user connects/disconnects
       if (msg.users) {
         this.setState({users: msg.users});
       } 
-      
+      // When current user logs in sets colour
       if (msg.color) {
         this.setState({userColor: msg.color})
       }
     }
-    console.log("componentDidMount <App />");
   }
 
+  // Sends message to server
   newMessage(content) {
     const newMessage = {type: "postMessage", content, username: this.state.currentUser, userColor: this.state.userColor}
-    this.socket.send(JSON.stringify(newMessage)); 
+    this.state.socket.send(JSON.stringify(newMessage)); 
     
   }
-
+  // Sends username change notification to server and changes state
   changeCurrentUser(user) {
     const userChange = {type: "postNotification", content: `${this.state.currentUser} has changed their name to ${user}.`}
-    this.socket.send(JSON.stringify(userChange));
+    this.state.socket.send(JSON.stringify(userChange));
     this.setState({currentUser: user});
   }
 

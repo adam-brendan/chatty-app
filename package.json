@@ -50,6 +50,7 @@
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "babel": "^6.23.0",
+    "jshint": "^2.10.2",
     "react": "15.4.2",
     "react-dom": "15.4.2"
   }

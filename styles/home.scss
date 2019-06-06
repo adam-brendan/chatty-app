@@ -43,8 +43,7 @@ body {
   padding: 5px;
 }
 
-.message.system {
-  font-style: italic;
+.message-system {
   padding: 5px 20px;
 }
 
@@ -59,9 +58,15 @@ body {
   flex: 8;
 }
 
+.message-pic {
+  max-width: 60%;
+  margin: auto;
+}
+
 .message-username {
   flex: 2;
   font-weight: 700;
+  margin-right: 4em;
 }
 
 .navbar {
